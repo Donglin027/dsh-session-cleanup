@@ -1,0 +1,10 @@
+# 发布版补丁：npm 包（根 package.json，name=dsh-session-residue-cleanup）安装后，
+# 模块解析名就是包名；本地 link 安装走同目录的 cordis.patch.yml（name=@local/...）。
+- insert:
+    - id: session-residue-cleanup
+      name: 'dsh-session-residue-cleanup'
+      config:
+        includeLedger: false
+        delayMs: 800
+        sweepOnStart: true
+        dryRun: false

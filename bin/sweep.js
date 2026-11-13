@@ -13,7 +13,7 @@
  *   node bin/sweep.js --apply --include-ledger   # 连 cost-meter 账本/明细一起清
  *   node bin/sweep.js --json                 # 机器可读输出
  *
- * 环境变量：DSH_HOME（默认 E:\dsh-home）
+ * 环境变量：DSH_HOME（默认 ~/.dsh）
  */
 const path = require('path');
 const os = require('os');

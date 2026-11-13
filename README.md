@@ -25,6 +25,16 @@ DSH 本身没有“删除会话”，右键菜单里的「删除会话」来自�
 `ledger.json` 中 3 处、4 个明细缓存文件里的按会话条目、`recent.json` 记录，以及 billion-context 里的分片。
 插件确认框写的是“将永久删除…全部记录（对话内容、统计、缓存）”，与实现不符——本工具就是补这个缺口。
 
+## 安装
+
+```bat
+:: 从 GitHub Release 的 tarball 安装（v1.1.0，含 Cordis 插件包，无运行时依赖）
+dsh plugin --profile desktop add "https://github.com/Donglin027/dsh-session-cleanup/releases/download/v1.1.0/dsh-session-residue-cleanup-1.1.0.tgz"
+```
+
+装完**重启 DSH** 生效；设置 → 插件里能看到「会话残留清理」。
+也可以直接用仓库装：`dsh plugin --profile desktop add github:Donglin027/dsh-session-cleanup`。
+
 ## 快速使用
 
 ```bat
@@ -41,29 +51,29 @@ node projects\ds-session-cleanup\bin\sweep.js --apply --include-ledger
 node projects\ds-session-cleanup\bin\sweep.js --json
 ```
 
-`DSH_HOME` 默认 `E:\dsh-home`，可用环境变量覆盖（换机/多 home 时用）。
+`DSH_HOME` 取环境变量 `DSH_HOME`，未设则用 `~/.dsh`（Windows 为 `%USERPROFILE%\.dsh`）。
 
 ## 自动模式（插件，推荐）
 
 装好本地插件后，**在 UI 里删会话就会自动清残留**，不用再手动跑命令。
 
-- 插件包：`plugin\`（`@local/dsh-session-cleanup` 1.0.0），监听宿主的 `api-session/removed` 事件
+- 插件包：`plugin\`（本地 link 装的是 `@local/dsh-session-cleanup` 1.1.0，发布包名 `dsh-session-residue-cleanup`），监听宿主的 `api-session/removed` 事件
   —— archive-manager 删完会话才发这个事件，所以不会抢跑。
-- 行为：事件到达后去抖 800 ms，再调用 `lib\cleanup.js` 的 `runSweep({apply:true})`；
+- 行为：事件到达后去抖 800 ms，再调用 `plugin\lib\cleanup.cjs` 的 `runSweep({apply:true})`；
   默认**不动账本**（`includeLedger: false`），需要连账本一起清就改配置。
 - 启动兜底：应用启动 3 s 后也扫一次（`sweepOnStart: true`），补上“删会话时应用崩了”的漏网项。
-- 配置（`plugin\cordis.patch.yml` 的 `config`）：`modulePath`（cleanup.js 绝对路径）、`home`、
+- 配置（`plugin\cordis.patch.yml` 的 `config`）：`home`、`modulePath`（可选，覆盖清理核心路径）、
   `includeLedger`、`delayMs`、`sweepOnStart`、`dryRun`。改完重启 DSH 生效。
 - 安装/升级：`plugin_manager install_bundle`，target 指 `plugin\` 目录；装完 `application=restart-required`，**重启 DSH 才激活**。
   设置 → 插件里能看到「会话残留清理」。
-- 注意：`modulePath` 是绝对路径，项目换位置后要改配置。
+- 注意：v1.1.0 起清理核心随包分发（`plugin\lib\cleanup.cjs`），按 `import.meta.url` 解析，**项目换位置不用改配置**。
 - 注意：插件**不导出 `Config`**。cordis 的 Config 必须是 schemastery 的 `Schema` 实例（带 `.validate`），
   导出裸 JSON Schema 会让 fiber 直接 `failed`（`Cannot read properties of undefined (reading 'validate')`）；
   配置照旧写在 `cordis.patch.yml` 的 `config:` 下，只是设置页里没有可视化表单。
 
 ## 技能（任意会话可用）
 
-已装成技能：`E:\dsh-home\skills\dsh-session-cleanup\SKILL.md`（技能名 `dsh-session-cleanup`）。
+已装成技能：`%DSH_HOME%\skills\dsh-session-cleanup\SKILL.md`（技能名 `dsh-session-cleanup`）。
 以后在任意会话里说“清一下已删会话的残留”，助手会按同一套流程走：先预览、逐项核对、再 `--apply`。
 
 | 开关 | 作用 |
@@ -85,8 +95,8 @@ node projects\ds-session-cleanup\bin\sweep.js --json
 5. 明细缓存按“整文件移走让插件重算”处理：原地删条会让缓存里的合计与明细对不上。
 6. 账本只删 `days[].sessions[]` 里已删会话的行，**不重算当天合计**（`byProviderModel` 无法按会话归因），
    所以“总额”仍包含已删会话花掉的钱——这是有意保留的账实一致。
-7. 不碰工作区里的任何项目文件。DSH 的多条会话共用同一个工作区，`E:\dsh-workspace` 下的文件无法按会话归属，
-   所以本工具只清 DSH_HOME 内的元数据与附件，不动 `E:\dsh-workspace`。
+7. 不碰工作区里的任何项目文件。DSH 的多条会话共用同一个工作区，工作区目录下的文件无法按会话归属，
+   所以本工具只清 DSH_HOME 内的元数据与附件，不动工作区。
 8. 默认移入 `DSH_HOME\trash\session-cleanup\<stamp>\`（保持相对路径），并写 `journal.json` 记录每一项。
 9. 改 JSON 前先把原文件复制进回收站；改写失败则跳过，不影响其余项。
 

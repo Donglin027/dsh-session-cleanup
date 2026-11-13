@@ -1,0 +1,42 @@
+{
+  "name": "dsh-session-residue-cleanup",
+  "version": "1.1.0",
+  "description": "Purges the residue of permanently deleted DSH sessions: orphan attachments, projection cache, spill directories and cost-meter shards.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Donglin027/dsh-session-cleanup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Donglin027/dsh-session-cleanup/issues"
+  },
+  "homepage": "https://github.com/Donglin027/dsh-session-cleanup#readme",
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "session",
+    "cleanup",
+    "attachments",
+    "cost-meter"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./plugin/cordis.patch.publish.yml"
+    }
+  },
+  "main": "./plugin/index.js",
+  "exports": {
+    ".": "./plugin/index.js",
+    "./locale/*": "./plugin/locale/*",
+    "./icon": "./plugin/icon.svg",
+    "./lib/*": "./plugin/lib/*"
+  },
+  "files": [
+    "plugin"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

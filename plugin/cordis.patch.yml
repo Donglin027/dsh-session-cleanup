@@ -1,0 +1,11 @@
+- insert:
+    - id: dsh-session-cleanup
+      name: '@local/dsh-session-cleanup'
+      # 移植说明：这里不写任何绝对路径。
+      #   - 清理核心随包分发（./lib/cleanup.js），由 index.js 按自身位置解析
+      #   - DSH 主目录优先取环境变量 DSH_HOME，未设则用 ~/.dsh；需要覆盖时再加 home: '<绝对路径>'
+      config:
+        includeLedger: false
+        delayMs: 800
+        sweepOnStart: true
+        dryRun: false

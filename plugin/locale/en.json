@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Session cleanup",
+    "description": "Purges leftover files of permanently deleted sessions: orphan attachments, projection cache, spill directories and cost-meter shards."
+  }
+}

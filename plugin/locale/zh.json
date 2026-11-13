@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "会话残留清理",
+    "description": "永久删除会话后自动清除其遗留文件：孤儿附件、投影缓存、spill 临时目录与 cost-meter 分片。"
+  }
+}

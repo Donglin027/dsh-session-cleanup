@@ -32,8 +32,10 @@ DSH 本身没有“删除会话”，右键菜单里的「删除会话」来自�
 dsh plugin --profile desktop add "https://github.com/Donglin027/dsh-session-cleanup/releases/latest/download/dsh-session-residue-cleanup.tgz"
 ```
 
-装完**重启 DSH** 生效；设置 → 插件里能看到「会话残留清理」。
+装完**重启 DSH** 生效。
 也可以直接用仓库装：`dsh plugin --profile desktop add github:Donglin027/dsh-session-cleanup`。
+
+逐步说明、装完怎么验证、网络报错怎么办、配置项、升级与卸载，见 **[安装教程.md](安装教程.md)**。
 
 ## 快速使用
 

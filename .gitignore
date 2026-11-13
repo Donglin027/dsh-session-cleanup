@@ -1,0 +1,16 @@
+﻿# 操作系统 / 编辑器
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+
+# 临时与日志
+*.log
+tmp/

@@ -20,6 +20,7 @@
 | 2026-11-12 | 回收站与临时目录 | 清空 `E:\dsh-home\trash\session-cleanup\` 下两份（2.27 MB）、`_trash\fixture_home`（2,055 文件 5.1 MB）、`_trash\202611122250_pnpm_fix`（5 文件）、`_trash\202611121403_pre-delete_84d1a98c`（818,689 B）、`_trash\probe.json`（86,022 B） | 用户逐项确认后清理；`_trash` 现为空 |
 | 2026-11-12 | `plugin/lib/*.cjs`、`lib/*.js`、`bin/sweep.js`、`plugin/index.js`、`plugin/cordis.patch.yml`、`plugin/package.json` | **可移植改造（v1.1.0）**：清理核心移入 `plugin/lib/cleanup.cjs` + `session-log.cjs`（插件包自包含）；`lib/*.js` 变纯转发兼容层；插件按 `import.meta.url` 解析核心、去掉 `modulePath` 与 `home` 绝对路径，主目录改取 `DSH_HOME` → `~/.dsh`；CLI 增加 `--home`；`files` 增列 `lib/*.cjs` | 目标机路径与本机不同，原配置写死 `E:\dsh-workspace\...\lib\cleanup.js` 与 `E:\dsh-home`，直接拷过去必错 |
 | 2026-11-12 | — | 验证可移植改造：CLI 预览 0 项（`--home` 与 `--json` 均正常）、插件 dry-run 无告警、`plugin_manager` 关→开后 `fiberPhase=active`；生成移植包 `documents\20261112_dsh会话删除自动清理_移植包_V1.0.zip` + `移植说明.md` | 复刻到另一台电脑只需三步且不改路径 |
+| 2026-11-13 | `package.json`（根）、`plugin/cordis.patch.publish.yml`、`README.md`、`安装教程.md` | 发布与上架准备：新增根 `package.json`（`dsh.bundle.patch` 指发布版补丁、`files: ["plugin"]`、无 `type` 因根脚本是 CJS）、发布版补丁 `cordis.patch.publish.yml`（id/name 改用 npm 包名，本地 link 那份未动）、README 安装段改用 `releases/latest` 稳定链接、新写 `安装教程.md` | npm 注册页被 IP 级风控拦（`/signup` 返回「访问暂时受限」，出口 IP 114.249.58.11），而 catalog 允许只挂 Release tarball（10,778 条里 1,632 条走这条路）；教程必须覆盖 `ECONNRESET` 与本地 tgz 兜底 |
 
 ## 待办
 
@@ -28,4 +29,5 @@
 - [x] 清理临时目录与回收站（用户逐项确认，`_trash` 已空）。
 - [x] 跑 `--apply` 的权限路径已验证：需 danger-full-access 或普通终端。
 - [x] `E:\.pnpm-store\v11`（约 584 MB）成为正式 store，长期保留。
+- [ ] 仓库满 1 天（本地 2026-11-14 00:30 之后）向 awesome-dsh-plugin 提 `data/plugins/Donglin027__dsh-session-cleanup.yml`，条目已备好在 `reports\ds-session-cleanup-catalog-entry.yml`。
 - [ ] 在另一台电脑按 `移植说明.md` 复刻，并回填一次“新机验证通过”的记录（尤其确认 `@michengai/dsh-archive-manager` 已装）。

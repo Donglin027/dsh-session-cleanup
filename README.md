@@ -28,8 +28,8 @@ DSH 本身没有“删除会话”，右键菜单里的「删除会话」来自�
 ## 安装
 
 ```bat
-:: 从 GitHub Release 的 tarball 安装（v1.1.0，含 Cordis 插件包，无运行时依赖）
-dsh plugin --profile desktop add "https://github.com/Donglin027/dsh-session-cleanup/releases/download/v1.1.0/dsh-session-residue-cleanup-1.1.0.tgz"
+:: 从 GitHub Release 的 tarball 安装（Cordis 插件包，无运行时依赖；latest 永远指向最新一版）
+dsh plugin --profile desktop add "https://github.com/Donglin027/dsh-session-cleanup/releases/latest/download/dsh-session-residue-cleanup.tgz"
 ```
 
 装完**重启 DSH** 生效；设置 → 插件里能看到「会话残留清理」。

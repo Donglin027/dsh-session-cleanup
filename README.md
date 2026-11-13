@@ -152,3 +152,7 @@ node projects\ds-session-cleanup\bin\sweep.js --json
 - 附件是内容寻址的，若某对象同时被“已删会话”和别的程序引用（例如手动塞进 objects 的文件），
   本工具会因为“无会话引用”而收走；只会进回收站，可恢复。
 - 会话产生的业务文件（导出物、脚本产物）在共享工作区里，**不在清理范围内**。
+
+## License
+
+MIT License，见 [LICENSE](LICENSE)。Copyright (c) 2026 Donglin027
